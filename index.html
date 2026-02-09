@@ -1,275 +1,570 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   <meta charset="UTF-8" />
   <title>Will You Be My Valentine?</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
-      margin: 0;
-      height: 100vh;
       font-family: 'Montserrat', sans-serif;
-      background: linear-gradient(135deg, #ff758c, #ff7eb3);
-      display: flex;
-      justify-content: center;
-      align-items: center;
       overflow: hidden;
-      color: white;
-      text-align: center;
     }
-
-    .screen {
+    
+    .script-font {
+      font-family: 'Dancing Script', cursive;
+    }
+    
+    .heart-animation {
       position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      transition: opacity 0.5s ease;
-      background: linear-gradient(135deg, #ff758c, #ff7eb3);
-    }
-
-    .hidden {
-      opacity: 0;
+      color: rgba(255, 105, 180, 0.7);
       pointer-events: none;
+      z-index: 10;
+      animation: floatUp 5s linear forwards;
     }
-
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 20px;
+    
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh) scale(0);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) scale(1.2);
+        opacity: 0;
+      }
     }
-
-    p {
-      font-size: 1.5rem;
-      margin-bottom: 30px;
+    
+    .fade-in {
+      animation: fadeIn 0.8s ease-out forwards;
     }
-
-    button {
-      border: none;
-      padding: 15px 30px;
-      font-size: 1.2rem;
-      border-radius: 30px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      margin: 10px;
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
-
-    .yes {
-      background: #ff4d6d;
-      color: white;
-    }
-
-    .yes:hover {
-      transform: scale(1.1);
-      background: #ff1e56;
-    }
-
-    .no {
-      background: white;
-      color: #ff4d6d;
-    }
-
-    .heart {
-      position: absolute;
-      color: pink;
-      font-size: 20px;
-      animation: float 4s infinite ease-in;
-    }
-
-    @keyframes float {
-      0% { transform: translateY(0); opacity: 1; }
-      100% { transform: translateY(-100vh); opacity: 0; }
-    }
-
-
-    /* Yeahhh page */
-    #yeahPage {
+    
+    .confetti {
       position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: linear-gradient(135deg, #ff4d6d, #ff758c);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      font-size: 2.5rem;
-      z-index: 100;
+      width: 15px;
+      height: 15px;
       opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.5s ease;
-      text-align: center;
+      z-index: 20;
+      animation: confettiFall 3s linear forwards;
     }
-
-    #yeahPage.show {
-      opacity: 1;
-      pointer-events: all;
+    
+    @keyframes confettiFall {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+      }
     }
-
-    #yeahPage p {
-      font-size: 1.5rem;
-      margin-top: 20px;
+    
+    .pulse {
+      animation: pulse 2s infinite;
     }
-
+    
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+    
+    .image-slide {
+      animation: slideIn 0.6s ease-out;
+    }
+    
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    /* Smooth entry animation for first screen */
+    #screen1 {
+      animation: gentleEntry 1.2s ease-out;
+    }
+    
+    @keyframes gentleEntry {
+      0% {
+        opacity: 0;
+        transform: scale(0.98);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
   </style>
 </head>
-<body>
-
-  <!-- First screen -->
-  <div class="screen" id="screen1">
-    <h1>Coucou Ave!!</h1>
-    <button class="yes" onclick="nextScreen(1)">quoi encore...</button>
-  </div>
-
-  <!-- Second screen -->
-  <div class="screen hidden" id="screen2">
-    <h1>J'ai une question … 😳</h1>
-	<div class="buttons" id="buttonContainer1">
-    <button id="yesBtn1" onclick="nextScreen(2)">oui? </button>
-	<button class="no" id="noBtn1" onmouseover="moveNo1()"> non merci </button>
-	</div>
-  </div>
-  <div class="screen hidden" id="screen3"> 
-	  <h1> heummm.....</h1>
-	  <div class="buttons" id="buttonContainer2">
-		  <button class="yes" onclick="nextScreen(3)"> QUOI</button>
-	  </div>
-  </div>
-
-  <div class="screen hidden" id="screen4">
-    <h1>Veux tu être ma valentine? </h1>
-    <div class="buttons" id="buttonContainer">
-      <button class="yes" id="yesBtn" onclick="clickYes()">Oui 💖</button>
-      <button class="no" id="noBtn" onmouseover="moveNo()">Non 🙈</button>
+<body class="min-h-screen overflow-x-hidden bg-gradient-to-br from-pink-400 via-red-300 to-rose-400">
+  <!-- Floating hearts background -->
+  <div id="heartsContainer"></div>
+  
+  <!-- Screen 1: Welcome -->
+  <div id="screen1" class="fixed inset-0 flex flex-col items-center justify-center p-6">
+    <div class="max-w-2xl mx-auto text-center fade-in">
+      <div class="mb-8">
+        <h1 class="text-5xl md:text-7xl font-bold text-white mb-4 script-font">Coucou Ave!!</h1>
+        <div class="h-1 w-24 bg-white/70 mx-auto rounded-full mb-6"></div>
+        <p class="text-xl text-white/90 mb-10">Je t'ai préparé une petite surprise...</p>
+      </div>
+      
+      <button 
+        onclick="nextScreen(1)"
+        class="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white text-xl font-semibold px-10 py-4 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 active:scale-95 transform">
+        Quoi encore... 😊
+      </button>
     </div>
   </div>
 
-<div id="yeahPage" style="text-align: center;">
-  <img id="valentineImage" src="image.png" alt="Valentine" width="900">
-  <p class="fade-text">🎉 Yeahhh! <br>Je suis tellement heureux que tu aies dit oui!!</p>
-</div>
+  <!-- Screen 2: Question -->
+  <div id="screen2" class="fixed inset-0 flex flex-col items-center justify-center p-6 opacity-0 pointer-events-none transition-opacity duration-700">
+    <div class="max-w-2xl mx-auto text-center">
+      <div class="mb-12">
+        <div class="text-rose-100 text-6xl mb-6">😳</div>
+        <h1 class="text-4xl md:text-6xl font-bold text-white mb-4">J'ai une question importante...</h1>
+        <div class="h-1 w-32 bg-white/50 mx-auto rounded-full mb-8"></div>
+      </div>
+      
+      <div class="flex flex-col sm:flex-row gap-6 justify-center">
+        <button 
+          id="yesBtn1"
+          onclick="nextScreen(2)"
+          class="bg-gradient-to-r from-emerald-400 to-teal-400 hover:from-emerald-500 hover:to-teal-500 text-white text-xl font-semibold px-10 py-4 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 active:scale-95 transform">
+          Oui? 👀
+        </button>
+        <button 
+          id="noBtn1"
+          onmouseover="moveNo1(event)"
+          class="bg-white/20 backdrop-blur-sm hover:bg-white/30 border-2 border-white/30 text-white text-xl font-semibold px-10 py-4 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform relative">
+          Non merci 🙈
+        </button>
+      </div>
+    </div>
+  </div>
 
-<style>
-#valentineImage {
-	transition : opacity 1s ease;
-	opacity : 1;
-}
-</style>
+  <!-- Screen 3: Suspense -->
+  <div id="screen3" class="fixed inset-0 flex flex-col items-center justify-center p-6 opacity-0 pointer-events-none transition-opacity duration-700">
+    <div class="max-w-2xl mx-auto text-center">
+      <div class="mb-12">
+        <div class="text-rose-100 text-7xl mb-8 animate-bounce">💭</div>
+        <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 script-font">Heummm.....</h1>
+        <div class="h-1 w-40 bg-white/50 mx-auto rounded-full mb-10"></div>
+        <p class="text-xl text-white/80 mb-10">Je réfléchis à comment te poser ça...</p>
+      </div>
+      
+      <button 
+        onclick="nextScreen(3)"
+        class="bg-gradient-to-r from-amber-400 to-orange-400 hover:from-amber-500 hover:to-orange-500 text-white text-xl font-semibold px-12 py-5 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 active:scale-95 transform pulse">
+        QUOI? 😄
+      </button>
+    </div>
+  </div>
 
-<script>
-  const images = [
-    "image.png",
-	"image1.jpeg",
-	"image2.jpeg",
-	"image3.jpeg",
-	"image4.jpeg",
-	"image5.jpeg",
-	"image6.jpeg",
-	"image7.jpeg",
-	"image8.jpeg",
-	"image9.jpeg",
-	"image10.jpeg",
-	"image11.jpeg",
-	"image12.jpeg",
-	"image13.jpeg",
-	"image14.jpeg"
-  ];
-  let first = true;
-  let currentIndex = 0;
-  const imgElement = document.getElementById("valentineImage");
+  <!-- Screen 4: Main Question -->
+  <div id="screen4" class="fixed inset-0 flex flex-col items-center justify-center p-6 opacity-0 pointer-events-none transition-opacity duration-700">
+    <div class="max-w-3xl mx-auto text-center">
+      <div class="mb-10">
+        <div class="text-rose-100 text-8xl mb-8 animate-pulse">💖</div>
+        <h1 class="text-4xl md:text-7xl font-bold text-white mb-6 script-font leading-tight">Veux-tu être ma Valentine?</h1>
+        <div class="h-1 w-48 bg-white/60 mx-auto rounded-full mb-8"></div>
+        <p class="text-lg text-white/80 italic">C'est une question très sérieuse...</p>
+      </div>
+      
+      <div class="flex flex-col sm:flex-row gap-8 justify-center items-center mt-12">
+        <button 
+          id="yesBtn"
+          onclick="clickYes()"
+          class="bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 text-white text-2xl font-bold px-16 py-6 rounded-3xl shadow-2xl hover:shadow-4xl transition-all duration-300 hover:scale-110 active:scale-95 transform pulse relative group">
+          <span class="flex items-center justify-center gap-3">
+            OUI! 
+            <span class="text-3xl group-hover:scale-125 transition-transform duration-300">💖</span>
+          </span>
+        </button>
+        
+        <button 
+          id="noBtn"
+          onmouseover="moveNo(event)"
+          class="bg-white/10 backdrop-blur-md hover:bg-white/20 border-3 border-white/40 text-white text-xl font-semibold px-10 py-4 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-200 transform relative">
+          <span class="flex items-center justify-center gap-2">
+            Non 
+            <span class="text-xl">🙈</span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
 
-  setTimeout(() => {
-  	setInterval(() => {
-    // update index
-	  imgElement.style.opacity = 0.35;
-	  setTimeout( () => {
-
-    	currentIndex = (currentIndex + 1) % images.length;
-    	// update image src
-    	imgElement.src = images[currentIndex];
-		imgElement.style.opacity = 1;
-	  }, 500);
-  	}, 3000); 
-  }, 4000);
-</script>
-
-<script>
-  // After image animation finishes, fade in text
-  const text = document.querySelector('.fade-text');
-  const image = document.querySelector('.pop-image');
-
-  image.addEventListener('animationend', () => {
-    text.style.opacity = 1; // fade in text
-  });
-</script>
-
-
+  <!-- Final Celebration Screen -->
+  <div id="yeahPage" class="fixed inset-0 flex flex-col items-center justify-center p-6 bg-gradient-to-br from-rose-500 via-pink-500 to-red-400 z-50 transition-all duration-1000 opacity-0 pointer-events-none">
+    <!-- Confetti -->
+    <div id="confettiContainer"></div>
+    
+    <div class="max-w-6xl mx-auto text-center">
+      <!-- Images Slideshow -->
+      <div class="mb-10">
+        <div class="relative h-[500px] md:h-[600px] rounded-3xl overflow-hidden shadow-2xl border-4 border-white/30">
+          <img 
+            id="valentineImage" 
+            src="image.png" 
+            alt="Our Memories" 
+            class="w-full h-full object-cover transition-all duration-1000"
+          >
+          <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+        </div>
+      </div>
+      
+      <!-- Celebration Text -->
+      <div class="mb-12">
+        <h2 class="text-5xl md:text-8xl font-bold text-white mb-6 script-font animate-pulse">
+          🎉 Yeahhh! 🎉
+        </h2>
+        <div class="h-2 w-64 bg-white/50 mx-auto rounded-full mb-8"></div>
+        <p class="text-2xl md:text-3xl text-white/90 mb-6 font-semibold fade-text opacity-0">
+          Je suis tellement heureux que tu aies dit oui!!
+        </p>
+        <p class="text-xl text-white/80 italic max-w-2xl mx-auto">
+          Tu as rendu ma journée incroyable 💕
+        </p>
+      </div>
+      
+      <!-- Celebration Hearts -->
+      <div class="flex justify-center gap-4 mt-8">
+        <div class="text-4xl animate-bounce delay-100">💖</div>
+        <div class="text-4xl animate-bounce delay-300">💕</div>
+        <div class="text-4xl animate-bounce delay-500">💝</div>
+        <div class="text-4xl animate-bounce delay-700">💘</div>
+        <div class="text-4xl animate-bounce delay-1000">💗</div>
+      </div>
+    </div>
+  </div>
 
   <script>
+    // Image array for slideshow
+    const images = [
+      "image.png",
+      "image1.jpeg",
+      "image2.jpeg",
+      "image3.jpeg",
+      "image4.jpeg",
+      "image5.jpeg",
+      "image6.jpeg",
+      "image7.jpeg",
+      "image8.jpeg",
+      "image9.jpeg",
+      "image10.jpeg",
+      "image11.jpeg",
+      "image12.jpeg",
+      "image13.jpeg",
+      "image14.jpeg"
+    ];
+    
+    let currentImageIndex = 0;
     let yesSize = 1;
-	let yesSize1 = 1;
+    let yesSize1 = 1;
+    let isTransitioning = false;
+    let lastNoBtn1Position = null;
+    let lastNoBtnPosition = null;
 
+    // Initialize floating hearts (gentler at start)
+    function createFloatingHearts(count = 8) {
+      const container = document.getElementById('heartsContainer');
+      const hearts = ['💖', '💕', '💗', '💝', '💘', '💓'];
+      
+      for (let i = 0; i < count; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart-animation';
+        heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.fontSize = (Math.random() * 15 + 10) + 'px';
+        heart.style.animationDelay = Math.random() * 3 + 's';
+        heart.style.animationDuration = (Math.random() * 3 + 5) + 's';
+        container.appendChild(heart);
+        
+        // Clean up after animation
+        setTimeout(() => {
+          if (heart.parentNode === container) {
+            container.removeChild(heart);
+          }
+        }, 8000);
+      }
+    }
+
+    // Create confetti
+    function createConfetti() {
+      const container = document.getElementById('confettiContainer');
+      const colors = ['#ff6b9d', '#ff8fab', '#ffb3c6', '#ffccd5', '#ff4d6d'];
+      
+      for (let i = 0; i < 150; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.animationDelay = Math.random() * 2 + 's';
+        confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+        container.appendChild(confetti);
+        
+        setTimeout(() => {
+          if (confetti.parentNode === container) {
+            container.removeChild(confetti);
+          }
+        }, 5000);
+      }
+    }
+
+    // Screen transitions
     function nextScreen(current) {
-      document.getElementById(`screen${current}`).classList.add("hidden");
-      document.getElementById(`screen${current+1}`).classList.remove("hidden");
+      if (isTransitioning) return;
+      isTransitioning = true;
+      
+      const currentScreen = document.getElementById(`screen${current}`);
+      const nextScreen = document.getElementById(`screen${current + 1}`);
+      
+      // Fade out current screen
+      currentScreen.style.opacity = '0';
+      currentScreen.style.pointerEvents = 'none';
+      
+      // Show next screen after delay
+      setTimeout(() => {
+        nextScreen.style.opacity = '1';
+        nextScreen.style.pointerEvents = 'all';
+        nextScreen.classList.add('fade-in');
+        
+        // Add floating hearts to screens 2-4
+        if (current >= 1) {
+          createFloatingHearts(12);
+        }
+        
+        isTransitioning = false;
+        
+        // Remove fade-in class after animation completes
+        setTimeout(() => {
+          nextScreen.classList.remove('fade-in');
+        }, 800);
+      }, 300);
     }
 
+    // Final Yes button click
     function clickYes() {
-      yesSize += 0.2;
+      // Grow the button
+      yesSize += 0.3;
       document.getElementById("yesBtn").style.transform = `scale(${yesSize})`;
-      createHeart();
-      document.getElementById("yeahPage").classList.add("show");
+      
+      // Create more hearts
+      for (let i = 0; i < 10; i++) {
+        createHeart();
+      }
+      
+      // Show celebration screen
+      setTimeout(() => {
+        document.getElementById("yeahPage").style.opacity = "1";
+        document.getElementById("yeahPage").style.pointerEvents = "all";
+        createConfetti();
+        
+        // Fade in text after image loads
+        setTimeout(() => {
+          document.querySelector('.fade-text').style.opacity = '1';
+        }, 1000);
+        
+        // Start image slideshow
+        startSlideshow();
+      }, 500);
     }
-	function moveNo() {
-  		const btn = document.getElementById("noBtn");
-	    yesSize += 0.2;
-      	document.getElementById("yesBtn").style.transform = `scale(${yesSize})`;
-	
-  		// Full viewport width and height
-  		const maxX = window.innerWidth - btn.offsetWidth;
-  		const maxY = window.innerHeight - btn.offsetHeight;
-		
-  		const x = Math.random() * maxX;
-  		const y = Math.random() * maxY;
-		
-  		btn.style.position = "fixed"; // fixed relative to viewport
-  		btn.style.left = `${x}px`;
-  		btn.style.top = `${y}px`;
-	}
 
+    // FIXED: Move No button for screen 4 - keeps button within bounds
+    function moveNo(event) {
+      event.preventDefault();
+      const btn = document.getElementById("noBtn");
+      const container = document.getElementById("screen4");
+      
+      // Get container bounds
+      const containerRect = container.getBoundingClientRect();
+      
+      // Get button dimensions
+      const btnWidth = btn.offsetWidth;
+      const btnHeight = btn.offsetHeight;
+      
+      // Calculate safe area within the screen (with padding)
+      const padding = 20;
+      const maxX = containerRect.width - btnWidth - padding;
+      const maxY = containerRect.height - btnHeight - padding;
+      
+      // Only move if we haven't calculated a position yet or want to move it
+      if (!lastNoBtnPosition || Math.random() > 0.3) {
+        // Generate new random position within container
+        const x = Math.max(padding, Math.random() * maxX);
+        const y = Math.max(padding, Math.random() * maxY);
+        
+        // Store position
+        lastNoBtnPosition = { x, y };
+        
+        // Apply position relative to container
+        btn.style.position = 'absolute';
+        btn.style.left = `${x}px`;
+        btn.style.top = `${y}px`;
+        btn.style.transform = 'translate(0, 0)'; // Reset any previous transform
+        
+        // Add bounce effect
+        btn.style.transition = 'all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+        
+        // Grow the Yes button
+        yesSize += 0.2;
+        document.getElementById("yesBtn").style.transform = `scale(${yesSize})`;
+        
+        // Add shake animation
+        btn.classList.add('animate-[shake_0.5s_ease-in-out]');
+        setTimeout(() => {
+          btn.classList.remove('animate-[shake_0.5s_ease-in-out]');
+        }, 500);
+      }
+    }
 
-	function moveNo1() {
-  		const btn = document.getElementById("noBtn1");
-	    yesSize1 += 0.2;
-      	document.getElementById("yesBtn1").style.transform = `scale(${yesSize1})`;
-		
-  		// Full viewport width and height
-  		const maxX = window.innerWidth - btn.offsetWidth;
-  		const maxY = window.innerHeight - btn.offsetHeight;
-		
-  		const x = Math.random() * maxX;
-  		const y = Math.random() * maxY;
-		
-  		btn.style.position = "fixed"; // fixed relative to viewport
-  		btn.style.left = `${x}px`;
-  		btn.style.top = `${y}px`;
-	}
+    // FIXED: Move No button for screen 2 - keeps button within bounds
+    function moveNo1(event) {
+      event.preventDefault();
+      const btn = document.getElementById("noBtn1");
+      const container = document.getElementById("screen2");
+      
+      // Get container bounds
+      const containerRect = container.getBoundingClientRect();
+      
+      // Get button dimensions
+      const btnWidth = btn.offsetWidth;
+      const btnHeight = btn.offsetHeight;
+      
+      // Calculate safe area within the screen (with padding)
+      const padding = 20;
+      const maxX = containerRect.width - btnWidth - padding;
+      const maxY = containerRect.height - btnHeight - padding;
+      
+      // Only move if we haven't calculated a position yet or want to move it
+      if (!lastNoBtn1Position || Math.random() > 0.4) {
+        // Generate new random position within container
+        const x = Math.max(padding, Math.random() * maxX);
+        const y = Math.max(padding, Math.random() * maxY);
+        
+        // Store position
+        lastNoBtn1Position = { x, y };
+        
+        // Apply position relative to container
+        btn.style.position = 'absolute';
+        btn.style.left = `${x}px`;
+        btn.style.top = `${y}px`;
+        btn.style.transform = 'translate(0, 0)';
+        
+        // Smooth transition
+        btn.style.transition = 'all 0.4s ease-out';
+        
+        // Grow the Yes button
+        yesSize1 += 0.15;
+        document.getElementById("yesBtn1").style.transform = `scale(${yesSize1})`;
+      }
+    }
 
+    // Create floating hearts
     function createHeart() {
       const heart = document.createElement("div");
-      heart.classList.add("heart");
+      heart.className = "heart-animation";
       heart.innerHTML = "💖";
       heart.style.left = Math.random() * 100 + "vw";
-      heart.style.bottom = "0px";
-      document.body.appendChild(heart);
-
-      setTimeout(() => heart.remove(), 4000);
+      heart.style.fontSize = (Math.random() * 25 + 20) + "px";
+      heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
+      document.getElementById('heartsContainer').appendChild(heart);
+      
+      setTimeout(() => {
+        if (heart.parentNode) {
+          heart.parentNode.removeChild(heart);
+        }
+      }, 5000);
     }
-  </script>
 
+    // Image slideshow
+    function startSlideshow() {
+      const imgElement = document.getElementById('valentineImage');
+      
+      // Start slideshow after initial delay
+      setTimeout(() => {
+        const slideInterval = setInterval(() => {
+          // Fade out
+          imgElement.style.opacity = 0.3;
+          
+          setTimeout(() => {
+            // Update image
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            imgElement.src = images[currentImageIndex];
+            imgElement.classList.add('image-slide');
+            
+            // Fade in
+            setTimeout(() => {
+              imgElement.style.opacity = 1;
+              setTimeout(() => {
+                imgElement.classList.remove('image-slide');
+              }, 600);
+            }, 50);
+          }, 600);
+        }, 3500);
+        
+        // Store interval ID for potential cleanup
+        window.slideshowInterval = slideInterval;
+      }, 2000);
+    }
+
+    // Initialize - smoother start
+    document.addEventListener('DOMContentLoaded', () => {
+      // Gentle start with fewer hearts
+      setTimeout(() => {
+        createFloatingHearts(6);
+      }, 500);
+      
+      // Continuous gentle heart animation
+      setInterval(() => {
+        if (document.getElementById('screen1').style.opacity !== '0') {
+          createFloatingHearts(2);
+        }
+      }, 3000);
+      
+      // Add custom animation for shake
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+          20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+      `;
+      document.head.appendChild(style);
+    });
+    
+    // Clean up animations on page hide
+    window.addEventListener('beforeunload', () => {
+      if (window.slideshowInterval) {
+        clearInterval(window.slideshowInterval);
+      }
+    });
+  </script>
 </body>
 </html>
-
