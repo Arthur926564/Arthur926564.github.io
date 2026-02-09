@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <title>Will You Be My Valentine?</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      color: white;
+      text-align: center;
+    }
+
+    .screen {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.5s ease;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    }
+
+    .hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 1.5rem;
+      margin-bottom: 30px;
+    }
+
+    button {
+      border: none;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 10px;
+    }
+
+    .yes {
+      background: #ff4d6d;
+      color: white;
+    }
+
+    .yes:hover {
+      transform: scale(1.1);
+      background: #ff1e56;
+    }
+
+    .no {
+      background: white;
+      color: #ff4d6d;
+    }
+
+    .heart {
+      position: absolute;
+      color: pink;
+      font-size: 20px;
+      animation: float 4s infinite ease-in;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-100vh); opacity: 0; }
+    }
+
+
+    /* Yeahhh page */
+    #yeahPage {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: linear-gradient(135deg, #ff4d6d, #ff758c);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 2.5rem;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+      text-align: center;
+    }
+
+    #yeahPage.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    #yeahPage p {
+      font-size: 1.5rem;
+      margin-top: 20px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- First screen -->
+  <div class="screen" id="screen1">
+    <h1>Coucou Ave!!</h1>
+    <button class="yes" onclick="nextScreen(1)">quoi encore...</button>
+  </div>
+
+  <!-- Second screen -->
+  <div class="screen hidden" id="screen2">
+    <h1>J'ai une question … 😳</h1>
+	<div class="buttons" id="buttonContainer1">
+    <button id="yesBtn1" onclick="nextScreen(2)">oui? </button>
+	<button class="no" id="noBtn1" onmouseover="moveNo1()"> non merci </button>
+	</div>
+  </div>
+  <div class="screen hidden" id="screen3"> 
+	  <h1> heummm.....</h1>
+	  <div class="buttons" id="buttonContainer2">
+		  <button class="yes" QUOI
+
+  <div class="screen hidden" id="screen3">
+    <h1>Veux tu être ma valentine? </h1>
+    <div class="buttons" id="buttonContainer">
+      <button class="yes" id="yesBtn" onclick="clickYes()">Oui 💖</button>
+      <button class="no" id="noBtn" onmouseover="moveNo()">Non 🙈</button>
+    </div>
+  </div>
+
+<div id="yeahPage" style="text-align: center;">
+  <img id="valentineImage" src="image.png" alt="Valentine" width="900">
+  <p class="fade-text">🎉 Yeahhh! <br>Je suis tellement heureux que tu aies dit oui!!</p>
+</div>
+
+<style>
+#valentineImage {
+	transition : opacity 1s ease;
+	opacity : 1;
+}
+</style>
+
+<script>
+  const images = [
+    "image.png",
+	"image1.jpeg",
+	"image2.jpeg",
+	"image3.jpeg",
+	"image4.jpeg",
+	"image5.jpeg",
+	"image6.jpeg",
+	"image7.jpeg",
+	"image8.jpeg",
+	"image9.jpeg",
+	"image10.jpeg",
+	"image11.jpeg",
+	"image12.jpeg",
+	"image13.jpeg",
+	"image14.jpeg"
+  ];
+  let first = true;
+  let currentIndex = 0;
+  const imgElement = document.getElementById("valentineImage");
+
+  setTimeout(() => {
+  	setInterval(() => {
+    // update index
+	  imgElement.style.opacity = 0.35;
+	  setTimeout( () => {
+
+    	currentIndex = (currentIndex + 1) % images.length;
+    	// update image src
+    	imgElement.src = images[currentIndex];
+		imgElement.style.opacity = 1;
+	  }, 500);
+  	}, 3000); 
+  }, 4000);
+</script>
+
+<script>
+  // After image animation finishes, fade in text
+  const text = document.querySelector('.fade-text');
+  const image = document.querySelector('.pop-image');
+
+  image.addEventListener('animationend', () => {
+    text.style.opacity = 1; // fade in text
+  });
+</script>
+
+
+
+  <script>
+    let yesSize = 1;
+	let yesSize1 = 1;
+
+    function nextScreen(current) {
+      document.getElementById(`screen${current}`).classList.add("hidden");
+      document.getElementById(`screen${current+1}`).classList.remove("hidden");
+    }
+
+    function clickYes() {
+      yesSize += 0.2;
+      document.getElementById("yesBtn").style.transform = `scale(${yesSize})`;
+      createHeart();
+      document.getElementById("yeahPage").classList.add("show");
+    }
+	function moveNo() {
+  		const btn = document.getElementById("noBtn");
+	    yesSize += 0.2;
+      	document.getElementById("yesBtn").style.transform = `scale(${yesSize})`;
+	
+  		// Full viewport width and height
+  		const maxX = window.innerWidth - btn.offsetWidth;
+  		const maxY = window.innerHeight - btn.offsetHeight;
+		
+  		const x = Math.random() * maxX;
+  		const y = Math.random() * maxY;
+		
+  		btn.style.position = "fixed"; // fixed relative to viewport
+  		btn.style.left = `${x}px`;
+  		btn.style.top = `${y}px`;
+	}
+
+
+	function moveNo1() {
+  		const btn = document.getElementById("noBtn1");
+	    yesSize1 += 0.2;
+      	document.getElementById("yesBtn1").style.transform = `scale(${yesSize1})`;
+		
+  		// Full viewport width and height
+  		const maxX = window.innerWidth - btn.offsetWidth;
+  		const maxY = window.innerHeight - btn.offsetHeight;
+		
+  		const x = Math.random() * maxX;
+  		const y = Math.random() * maxY;
+		
+  		btn.style.position = "fixed"; // fixed relative to viewport
+  		btn.style.left = `${x}px`;
+  		btn.style.top = `${y}px`;
+	}
+
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = "💖";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.bottom = "0px";
+      document.body.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 4000);
+    }
+  </script>
+
+</body>
+</html>
+
