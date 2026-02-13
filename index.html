@@ -1,570 +1,771 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <title>Will You Be My Valentine?</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body {
-      font-family: 'Montserrat', sans-serif;
-      overflow: hidden;
-    }
-    
-    .script-font {
-      font-family: 'Dancing Script', cursive;
-    }
-    
-    .heart-animation {
-      position: absolute;
-      color: rgba(255, 105, 180, 0.7);
-      pointer-events: none;
-      z-index: 10;
-      animation: floatUp 5s linear forwards;
-    }
-    
-    @keyframes floatUp {
-      0% {
-        transform: translateY(100vh) scale(0);
-        opacity: 0;
-      }
-      10% {
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-100vh) scale(1.2);
-        opacity: 0;
-      }
-    }
-    
-    .fade-in {
-      animation: fadeIn 0.8s ease-out forwards;
-    }
-    
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    .confetti {
-      position: fixed;
-      width: 15px;
-      height: 15px;
-      opacity: 0;
-      z-index: 20;
-      animation: confettiFall 3s linear forwards;
-    }
-    
-    @keyframes confettiFall {
-      0% {
-        transform: translateY(-100px) rotate(0deg);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(100vh) rotate(720deg);
-        opacity: 0;
-      }
-    }
-    
-    .pulse {
-      animation: pulse 2s infinite;
-    }
-    
-    @keyframes pulse {
-      0%, 100% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(1.05);
-      }
-    }
-    
-    .image-slide {
-      animation: slideIn 0.6s ease-out;
-    }
-    
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateX(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-    
-    /* Smooth entry animation for first screen */
-    #screen1 {
-      animation: gentleEntry 1.2s ease-out;
-    }
-    
-    @keyframes gentleEntry {
-      0% {
-        opacity: 0;
-        transform: scale(0.98);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arthur Herbette - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#1f2937',
+                        accent: '#10b981',
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(10px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        
+        body {
+            background-color: #f8fafc;
+        }
+        
+        body.dark {
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
+        
+        .dark .dark\:bg-dark {
+            background-color: #1e293b;
+        }
+        
+        .dark .dark\:text-light {
+            color: #e2e8f0;
+        }
+        
+        .dark .dark\:border-gray-700 {
+            border-color: #334155;
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .timeline-item:not(:last-child) {
+            padding-bottom: 2rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #3b82f6;
+            border: 3px solid #f8fafc;
+            box-shadow: 0 0 0 3px #3b82f6;
+            z-index: 2;
+        }
+        
+        .dark .timeline-item::before {
+            border-color: #1e293b;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 1.5rem;
+            width: 2px;
+            height: calc(100% - 0.5rem);
+            background-color: #e5e7eb;
+        }
+        
+        .dark .timeline-item::after {
+            background-color: #475569;
+        }
+        
+        .timeline-item:last-child::after {
+            display: none;
+        }
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Custom animations */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .slide-up {
+            animation: slideUp 0.5s ease-out;
+        }
+    </style>
 </head>
-<body class="min-h-screen overflow-x-hidden bg-gradient-to-br from-pink-400 via-red-300 to-rose-400">
-  <!-- Floating hearts background -->
-  <div id="heartsContainer"></div>
-  
-  <!-- Screen 1: Welcome -->
-  <div id="screen1" class="fixed inset-0 flex flex-col items-center justify-center p-6">
-    <div class="max-w-2xl mx-auto text-center fade-in">
-      <div class="mb-8">
-        <h1 class="text-5xl md:text-7xl font-bold text-white mb-4 script-font">Coucou Ave!!</h1>
-        <div class="h-1 w-24 bg-white/70 mx-auto rounded-full mb-6"></div>
-        <p class="text-xl text-white/90 mb-10">Je t'ai préparé une petite surprise...</p>
-      </div>
-      
-      <button 
-        onclick="nextScreen(1)"
-        class="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white text-xl font-semibold px-10 py-4 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 active:scale-95 transform">
-        Quoi encore... 😊
-      </button>
-    </div>
-  </div>
-
-  <!-- Screen 2: Question -->
-  <div id="screen2" class="fixed inset-0 flex flex-col items-center justify-center p-6 opacity-0 pointer-events-none transition-opacity duration-700">
-    <div class="max-w-2xl mx-auto text-center">
-      <div class="mb-12">
-        <div class="text-rose-100 text-6xl mb-6">😳</div>
-        <h1 class="text-4xl md:text-6xl font-bold text-white mb-4">J'ai une question importante...</h1>
-        <div class="h-1 w-32 bg-white/50 mx-auto rounded-full mb-8"></div>
-      </div>
-      
-      <div class="flex flex-col sm:flex-row gap-6 justify-center">
-        <button 
-          id="yesBtn1"
-          onclick="nextScreen(2)"
-          class="bg-gradient-to-r from-emerald-400 to-teal-400 hover:from-emerald-500 hover:to-teal-500 text-white text-xl font-semibold px-10 py-4 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 active:scale-95 transform">
-          Oui? 👀
+<body class="text-gray-800 transition-colors duration-300">
+    <!-- Dark mode toggle -->
+    <div class="fixed top-4 right-4 z-50">
+        <button id="darkModeToggle" class="bg-white dark:bg-gray-800 text-gray-800 dark:text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+            <i id="darkModeIcon" class="fas fa-moon"></i>
         </button>
-        <button 
-          id="noBtn1"
-          onmouseover="moveNo1(event)"
-          class="bg-white/20 backdrop-blur-sm hover:bg-white/30 border-2 border-white/30 text-white text-xl font-semibold px-10 py-4 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform relative">
-          Non merci 🙈
-        </button>
-      </div>
     </div>
-  </div>
 
-  <!-- Screen 3: Suspense -->
-  <div id="screen3" class="fixed inset-0 flex flex-col items-center justify-center p-6 opacity-0 pointer-events-none transition-opacity duration-700">
-    <div class="max-w-2xl mx-auto text-center">
-      <div class="mb-12">
-        <div class="text-rose-100 text-7xl mb-8 animate-bounce">💭</div>
-        <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 script-font">Heummm.....</h1>
-        <div class="h-1 w-40 bg-white/50 mx-auto rounded-full mb-10"></div>
-        <p class="text-xl text-white/80 mb-10">Je réfléchis à comment te poser ça...</p>
-      </div>
-      
-      <button 
-        onclick="nextScreen(3)"
-        class="bg-gradient-to-r from-amber-400 to-orange-400 hover:from-amber-500 hover:to-orange-500 text-white text-xl font-semibold px-12 py-5 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 active:scale-95 transform pulse">
-        QUOI? 😄
-      </button>
-    </div>
-  </div>
-
-  <!-- Screen 4: Main Question -->
-  <div id="screen4" class="fixed inset-0 flex flex-col items-center justify-center p-6 opacity-0 pointer-events-none transition-opacity duration-700">
-    <div class="max-w-3xl mx-auto text-center">
-      <div class="mb-10">
-        <div class="text-rose-100 text-8xl mb-8 animate-pulse">💖</div>
-        <h1 class="text-4xl md:text-7xl font-bold text-white mb-6 script-font leading-tight">Veux-tu être ma Valentine?</h1>
-        <div class="h-1 w-48 bg-white/60 mx-auto rounded-full mb-8"></div>
-        <p class="text-lg text-white/80 italic">C'est une question très sérieuse...</p>
-      </div>
-      
-      <div class="flex flex-col sm:flex-row gap-8 justify-center items-center mt-12">
-        <button 
-          id="yesBtn"
-          onclick="clickYes()"
-          class="bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 text-white text-2xl font-bold px-16 py-6 rounded-3xl shadow-2xl hover:shadow-4xl transition-all duration-300 hover:scale-110 active:scale-95 transform pulse relative group">
-          <span class="flex items-center justify-center gap-3">
-            OUI! 
-            <span class="text-3xl group-hover:scale-125 transition-transform duration-300">💖</span>
-          </span>
-        </button>
-        
-        <button 
-          id="noBtn"
-          onmouseover="moveNo(event)"
-          class="bg-white/10 backdrop-blur-md hover:bg-white/20 border-3 border-white/40 text-white text-xl font-semibold px-10 py-4 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-200 transform relative">
-          <span class="flex items-center justify-center gap-2">
-            Non 
-            <span class="text-xl">🙈</span>
-          </span>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Final Celebration Screen -->
-  <div id="yeahPage" class="fixed inset-0 flex flex-col items-center justify-center p-6 bg-gradient-to-br from-rose-500 via-pink-500 to-red-400 z-50 transition-all duration-1000 opacity-0 pointer-events-none">
-    <!-- Confetti -->
-    <div id="confettiContainer"></div>
-    
-    <div class="max-w-6xl mx-auto text-center">
-      <!-- Images Slideshow -->
-      <div class="mb-10">
-        <div class="relative h-[500px] md:h-[600px] rounded-3xl overflow-hidden shadow-2xl border-4 border-white/30">
-          <img 
-            id="valentineImage" 
-            src="image.png" 
-            alt="Our Memories" 
-            class="w-full h-full object-cover transition-all duration-1000"
-          >
-          <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-        </div>
-      </div>
-      
-      <!-- Celebration Text -->
-      <div class="mb-12">
-        <h2 class="text-5xl md:text-8xl font-bold text-white mb-6 script-font animate-pulse">
-          🎉 Yeahhh! 🎉
-        </h2>
-        <div class="h-2 w-64 bg-white/50 mx-auto rounded-full mb-8"></div>
-        <p class="text-2xl md:text-3xl text-white/90 mb-6 font-semibold fade-text opacity-0">
-          Je suis tellement heureux que tu aies dit oui!!
-        </p>
-        <p class="text-xl text-white/80 italic max-w-2xl mx-auto">
-          Tu as rendu ma journée incroyable 💕
-        </p>
-      </div>
-      
-      <!-- Celebration Hearts -->
-      <div class="flex justify-center gap-4 mt-8">
-        <div class="text-4xl animate-bounce delay-100">💖</div>
-        <div class="text-4xl animate-bounce delay-300">💕</div>
-        <div class="text-4xl animate-bounce delay-500">💝</div>
-        <div class="text-4xl animate-bounce delay-700">💘</div>
-        <div class="text-4xl animate-bounce delay-1000">💗</div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // Image array for slideshow
-    const images = [
-      "image.png",
-      "image1.jpeg",
-      "image2.jpeg",
-      "image3.jpeg",
-      "image4.jpeg",
-      "image5.jpeg",
-      "image6.jpeg",
-      "image7.jpeg",
-      "image8.jpeg",
-      "image9.jpeg",
-      "image10.jpeg",
-      "image11.jpeg",
-      "image12.jpeg",
-      "image13.jpeg",
-      "image14.jpeg"
-    ];
-    
-    let currentImageIndex = 0;
-    let yesSize = 1;
-    let yesSize1 = 1;
-    let isTransitioning = false;
-    let lastNoBtn1Position = null;
-    let lastNoBtnPosition = null;
-
-    // Initialize floating hearts (gentler at start)
-    function createFloatingHearts(count = 8) {
-      const container = document.getElementById('heartsContainer');
-      const hearts = ['💖', '💕', '💗', '💝', '💘', '💓'];
-      
-      for (let i = 0; i < count; i++) {
-        const heart = document.createElement('div');
-        heart.className = 'heart-animation';
-        heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
-        heart.style.left = Math.random() * 100 + 'vw';
-        heart.style.fontSize = (Math.random() * 15 + 10) + 'px';
-        heart.style.animationDelay = Math.random() * 3 + 's';
-        heart.style.animationDuration = (Math.random() * 3 + 5) + 's';
-        container.appendChild(heart);
-        
-        // Clean up after animation
-        setTimeout(() => {
-          if (heart.parentNode === container) {
-            container.removeChild(heart);
-          }
-        }, 8000);
-      }
-    }
-
-    // Create confetti
-    function createConfetti() {
-      const container = document.getElementById('confettiContainer');
-      const colors = ['#ff6b9d', '#ff8fab', '#ffb3c6', '#ffccd5', '#ff4d6d'];
-      
-      for (let i = 0; i < 150; i++) {
-        const confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        confetti.style.left = Math.random() * 100 + 'vw';
-        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        confetti.style.animationDelay = Math.random() * 2 + 's';
-        confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
-        container.appendChild(confetti);
-        
-        setTimeout(() => {
-          if (confetti.parentNode === container) {
-            container.removeChild(confetti);
-          }
-        }, 5000);
-      }
-    }
-
-    // Screen transitions
-    function nextScreen(current) {
-      if (isTransitioning) return;
-      isTransitioning = true;
-      
-      const currentScreen = document.getElementById(`screen${current}`);
-      const nextScreen = document.getElementById(`screen${current + 1}`);
-      
-      // Fade out current screen
-      currentScreen.style.opacity = '0';
-      currentScreen.style.pointerEvents = 'none';
-      
-      // Show next screen after delay
-      setTimeout(() => {
-        nextScreen.style.opacity = '1';
-        nextScreen.style.pointerEvents = 'all';
-        nextScreen.classList.add('fade-in');
-        
-        // Add floating hearts to screens 2-4
-        if (current >= 1) {
-          createFloatingHearts(12);
-        }
-        
-        isTransitioning = false;
-        
-        // Remove fade-in class after animation completes
-        setTimeout(() => {
-          nextScreen.classList.remove('fade-in');
-        }, 800);
-      }, 300);
-    }
-
-    // Final Yes button click
-    function clickYes() {
-      // Grow the button
-      yesSize += 0.3;
-      document.getElementById("yesBtn").style.transform = `scale(${yesSize})`;
-      
-      // Create more hearts
-      for (let i = 0; i < 10; i++) {
-        createHeart();
-      }
-      
-      // Show celebration screen
-      setTimeout(() => {
-        document.getElementById("yeahPage").style.opacity = "1";
-        document.getElementById("yeahPage").style.pointerEvents = "all";
-        createConfetti();
-        
-        // Fade in text after image loads
-        setTimeout(() => {
-          document.querySelector('.fade-text').style.opacity = '1';
-        }, 1000);
-        
-        // Start image slideshow
-        startSlideshow();
-      }, 500);
-    }
-
-    // FIXED: Move No button for screen 4 - keeps button within bounds
-    function moveNo(event) {
-      event.preventDefault();
-      const btn = document.getElementById("noBtn");
-      const container = document.getElementById("screen4");
-      
-      // Get container bounds
-      const containerRect = container.getBoundingClientRect();
-      
-      // Get button dimensions
-      const btnWidth = btn.offsetWidth;
-      const btnHeight = btn.offsetHeight;
-      
-      // Calculate safe area within the screen (with padding)
-      const padding = 20;
-      const maxX = containerRect.width - btnWidth - padding;
-      const maxY = containerRect.height - btnHeight - padding;
-      
-      // Only move if we haven't calculated a position yet or want to move it
-      if (!lastNoBtnPosition || Math.random() > 0.3) {
-        // Generate new random position within container
-        const x = Math.max(padding, Math.random() * maxX);
-        const y = Math.max(padding, Math.random() * maxY);
-        
-        // Store position
-        lastNoBtnPosition = { x, y };
-        
-        // Apply position relative to container
-        btn.style.position = 'absolute';
-        btn.style.left = `${x}px`;
-        btn.style.top = `${y}px`;
-        btn.style.transform = 'translate(0, 0)'; // Reset any previous transform
-        
-        // Add bounce effect
-        btn.style.transition = 'all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
-        
-        // Grow the Yes button
-        yesSize += 0.2;
-        document.getElementById("yesBtn").style.transform = `scale(${yesSize})`;
-        
-        // Add shake animation
-        btn.classList.add('animate-[shake_0.5s_ease-in-out]');
-        setTimeout(() => {
-          btn.classList.remove('animate-[shake_0.5s_ease-in-out]');
-        }, 500);
-      }
-    }
-
-    // FIXED: Move No button for screen 2 - keeps button within bounds
-    function moveNo1(event) {
-      event.preventDefault();
-      const btn = document.getElementById("noBtn1");
-      const container = document.getElementById("screen2");
-      
-      // Get container bounds
-      const containerRect = container.getBoundingClientRect();
-      
-      // Get button dimensions
-      const btnWidth = btn.offsetWidth;
-      const btnHeight = btn.offsetHeight;
-      
-      // Calculate safe area within the screen (with padding)
-      const padding = 20;
-      const maxX = containerRect.width - btnWidth - padding;
-      const maxY = containerRect.height - btnHeight - padding;
-      
-      // Only move if we haven't calculated a position yet or want to move it
-      if (!lastNoBtn1Position || Math.random() > 0.4) {
-        // Generate new random position within container
-        const x = Math.max(padding, Math.random() * maxX);
-        const y = Math.max(padding, Math.random() * maxY);
-        
-        // Store position
-        lastNoBtn1Position = { x, y };
-        
-        // Apply position relative to container
-        btn.style.position = 'absolute';
-        btn.style.left = `${x}px`;
-        btn.style.top = `${y}px`;
-        btn.style.transform = 'translate(0, 0)';
-        
-        // Smooth transition
-        btn.style.transition = 'all 0.4s ease-out';
-        
-        // Grow the Yes button
-        yesSize1 += 0.15;
-        document.getElementById("yesBtn1").style.transform = `scale(${yesSize1})`;
-      }
-    }
-
-    // Create floating hearts
-    function createHeart() {
-      const heart = document.createElement("div");
-      heart.className = "heart-animation";
-      heart.innerHTML = "💖";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.fontSize = (Math.random() * 25 + 20) + "px";
-      heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
-      document.getElementById('heartsContainer').appendChild(heart);
-      
-      setTimeout(() => {
-        if (heart.parentNode) {
-          heart.parentNode.removeChild(heart);
-        }
-      }, 5000);
-    }
-
-    // Image slideshow
-    function startSlideshow() {
-      const imgElement = document.getElementById('valentineImage');
-      
-      // Start slideshow after initial delay
-      setTimeout(() => {
-        const slideInterval = setInterval(() => {
-          // Fade out
-          imgElement.style.opacity = 0.3;
-          
-          setTimeout(() => {
-            // Update image
-            currentImageIndex = (currentImageIndex + 1) % images.length;
-            imgElement.src = images[currentImageIndex];
-            imgElement.classList.add('image-slide');
+    <!-- Header & Navigation -->
+    <header class="sticky top-0 z-40 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <a href="#" class="text-2xl font-bold text-primary dark:text-blue-400">Arthur Herbette</a>
+                
+                <nav class="hidden md:block">
+                    <ul class="flex space-x-8">
+                        <li><a href="#home" class="font-medium hover:text-primary dark:hover:text-blue-400 transition-colors">Home</a></li>
+                        <li><a href="#skills" class="font-medium hover:text-primary dark:hover:text-blue-400 transition-colors">Skills</a></li>
+                        <li><a href="#timeline" class="font-medium hover:text-primary dark:hover:text-blue-400 transition-colors">Timeline</a></li>
+                        <li><a href="#projects" class="font-medium hover:text-primary dark:hover:text-blue-400 transition-colors">Projects</a></li>
+                        <li><a href="#contact" class="font-medium hover:text-primary dark:hover:text-blue-400 transition-colors">Contact</a></li>
+                    </ul>
+                </nav>
+                
+                <button id="mobileMenuBtn" class="md:hidden text-gray-700 dark:text-gray-300">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
             
-            // Fade in
-            setTimeout(() => {
-              imgElement.style.opacity = 1;
-              setTimeout(() => {
-                imgElement.classList.remove('image-slide');
-              }, 600);
-            }, 50);
-          }, 600);
-        }, 3500);
-        
-        // Store interval ID for potential cleanup
-        window.slideshowInterval = slideInterval;
-      }, 2000);
-    }
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="md:hidden hidden py-4 border-t dark:border-gray-700">
+                <ul class="flex flex-col space-y-4">
+                    <li><a href="#home" class="font-medium hover:text-primary dark:hover:text-blue-400 transition-colors">Home</a></li>
+                    <li><a href="#skills" class="font-medium hover:text-primary dark:hover:text-blue-400 transition-colors">Skills</a></li>
+                    <li><a href="#timeline" class="font-medium hover:text-primary dark:hover:text-blue-400 transition-colors">Timeline</a></li>
+                    <li><a href="#projects" class="font-medium hover:text-primary dark:hover:text-blue-400 transition-colors">Projects</a></li>
+                    <li><a href="#contact" class="font-medium hover:text-primary dark:hover:text-blue-400 transition-colors">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
 
-    // Initialize - smoother start
-    document.addEventListener('DOMContentLoaded', () => {
-      // Gentle start with fewer hearts
-      setTimeout(() => {
-        createFloatingHearts(6);
-      }, 500);
-      
-      // Continuous gentle heart animation
-      setInterval(() => {
-        if (document.getElementById('screen1').style.opacity !== '0') {
-          createFloatingHearts(2);
+    <!-- Hero Section -->
+    <section id="home" class="py-12 md:py-16 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-2/3 md:pr-12 text-center md:text-left slide-up">
+                    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">Arthur Herbette</h1>
+                    <div class="flex flex-wrap justify-center md:justify-start gap-3 mb-6 text-gray-700 dark:text-gray-300">
+                        <span>Lausanne, Switzerland</span>
+                        <span class="hidden md:inline">•</span>
+                        <a href="https://github.com/Arthur926564" class="text-primary dark:text-blue-400 hover:underline">Github</a>
+                        <span>•</span>
+                        <a href="https://www.linkedin.com/in/arthur-herbette-b97021359/" class="text-primary dark:text-blue-400 hover:underline">Linkedin</a>
+                        <span>•</span>
+						<span> <a href="mailto:arthur.herbette@epfl.ch" class="text-primary dark:text-blue-400 hover:underline"> arthur.herbette@epfl.ch </a></span>
+                        <span>•</span>
+                        <span>+41 79 268 56 72</span>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg mb-8">
+                        <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4 flex items-center">
+                            <i class="fas fa-bullseye text-primary dark:text-blue-400 mr-3"></i> Objective
+                        </h2>
+                        <p class="text-gray-700 dark:text-gray-300">
+                            Second-year Computer Science student at EPFL, passionate about mathematics and computing. 
+                            Interested in compilers, algorithm design, and low-level systems, with a strong focus on 
+                            mathematical and theoretical foundations. Eager to apply technical skills to real-world 
+                            challenges and contribute to innovative projects.
+                        </p>
+                    </div>
+                    
+                    <div class="flex justify-center md:justify-start space-x-4">
+                        <a href="#contact" class="bg-primary hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center">
+                            <i class="fas fa-envelope mr-2"></i> Contact Me
+                        </a>
+                        <a href="#projects" class="bg-white dark:bg-gray-800 text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 font-medium py-3 px-6 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center">
+                            <i class="fas fa-code mr-2"></i> View Projects
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="md:w-1/3 mt-10 md:mt-0 flex justify-center fade-in">
+                    <div class="relative">
+                        <div class="w-56 h-56 rounded-full overflow-hidden border-4 border-white dark:border-gray-800 shadow-2xl">
+                            <img src="id_photo.jpeg" 
+                                 alt="Arthur Herbette" class="w-full h-full object-cover">
+                        </div>
+                        <div class="absolute -bottom-2 -right-2 bg-primary dark:bg-blue-600 text-white rounded-full p-3 shadow-lg">
+                            <i class="fas fa-laptop-code text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-12">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Sidebar -->
+            <div class="lg:w-1/3">
+                <!-- Skills Card -->
+                <div id="skills" class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-8 transition-all duration-300 hover:shadow-xl">
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6 pb-3 border-b border-gray-200 dark:border-gray-700 flex items-center">
+                        <i class="fas fa-code text-primary dark:text-blue-400 mr-3"></i> Skills
+                    </h2>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <h3 class="font-bold text-gray-700 dark:text-gray-300 mb-3">Programming Languages</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-sm font-medium px-3 py-1.5 rounded-full">Java</span>
+                                <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-sm font-medium px-3 py-1.5 rounded-full">Scala</span>
+                                <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-sm font-medium px-3 py-1.5 rounded-full">RISC-V</span>
+                                <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-sm font-medium px-3 py-1.5 rounded-full">Verilog</span>
+                                <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-sm font-medium px-3 py-1.5 rounded-full">Python</span>
+                                <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-sm font-medium px-3 py-1.5 rounded-full">C</span>
+                                <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-sm font-medium px-3 py-1.5 rounded-full">LaTeX</span>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="font-bold text-gray-700 dark:text-gray-300 mb-3">Platforms & Tools</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-sm font-medium px-3 py-1.5 rounded-full">Linux</span>
+                                <span class="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-sm font-medium px-3 py-1.5 rounded-full">Git</span>
+                                <span class="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-sm font-medium px-3 py-1.5 rounded-full">Vim</span>
+                                <span class="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-sm font-medium px-3 py-1.5 rounded-full">JetBrains IDE Suite</span>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="font-bold text-gray-700 dark:text-gray-300 mb-3">Technologies & Frameworks</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 text-sm font-medium px-3 py-1.5 rounded-full">JavaFX</span>
+                                <span class="bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 text-sm font-medium px-3 py-1.5 rounded-full">Pandas</span>
+                                <span class="bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 text-sm font-medium px-3 py-1.5 rounded-full">NumPy</span>
+                                <span class="bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 text-sm font-medium px-3 py-1.5 rounded-full">Matplotlib</span>
+                                <span class="bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 text-sm font-medium px-3 py-1.5 rounded-full">Polars</span>
+                                <span class="bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 text-sm font-medium px-3 py-1.5 rounded-full">PyTorch</span>
+                                <span class="bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 text-sm font-medium px-3 py-1.5 rounded-full">Tauri</span>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="font-bold text-gray-700 dark:text-gray-300 mb-3">Quantitative Finance</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 text-sm font-medium px-3 py-1.5 rounded-full">Algorithmic Trading</span>
+                                <span class="bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 text-sm font-medium px-3 py-1.5 rounded-full">Backtesting</span>
+                                <span class="bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 text-sm font-medium px-3 py-1.5 rounded-full">Risk Metrics</span>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="font-bold text-gray-700 dark:text-gray-300 mb-3">Languages</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 text-sm font-medium px-3 py-1.5 rounded-full">French (Native)</span>
+                                <span class="bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 text-sm font-medium px-3 py-1.5 rounded-full">English (Fluent)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Extracurricular Card -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-xl">
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6 pb-3 border-b border-gray-200 dark:border-gray-700 flex items-center">
+                        <i class="fas fa-swimmer text-primary dark:text-blue-400 mr-3"></i> Extracurricular Activities
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-blue-100 dark:bg-blue-900/30 text-primary dark:text-blue-400 p-3 rounded-lg">
+                                <i class="fas fa-medal text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800 dark:text-white">Elite Competitive Swimmer</h3>
+                                <p class="text-gray-600 dark:text-gray-400 mb-2">Lausanne Aquatique (2023-2025)</p>
+                                <ul class="text-gray-700 dark:text-gray-300 space-y-1">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-award text-yellow-500 mt-1 mr-2 text-sm"></i>
+                                        <span>Junior national medalist: Silver (200m IM x2, 100m Freestyle), Bronze (100m Freestyle)</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-globe text-blue-500 mt-1 mr-2 text-sm"></i>
+                                        <span>Competed at national/international level in individual medley and freestyle</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="lg:w-2/3">
+                <!-- Timeline Section -->
+                <section id="timeline" class="mb-12 slide-up">
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">My Journey</h2>
+                    
+                    <!-- Timeline Toggle Buttons -->
+                    <div class="flex mb-8 overflow-hidden rounded-xl border border-gray-300 dark:border-gray-700 shadow-sm">
+                        <button id="educationBtn" class="timeline-btn flex-1 py-4 px-6 font-medium text-lg transition-all duration-300 bg-primary text-white flex items-center justify-center">
+                            <i class="fas fa-graduation-cap mr-3"></i> Education
+                        </button>
+                        <button id="experienceBtn" class="timeline-btn flex-1 py-4 px-6 font-medium text-lg transition-all duration-300 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center">
+                            <i class="fas fa-briefcase mr-3"></i> Experience
+                        </button>
+                    </div>
+                    
+                    <!-- Education Timeline -->
+                    <div id="educationTimeline" class="active-timeline bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 md:p-8 transition-opacity duration-300">
+                        <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-8 flex items-center">
+                            <i class="fas fa-university text-primary dark:text-blue-400 mr-3"></i> Education
+                        </h3>
+                        
+                        <div class="timeline-container">
+                            <!-- Education Item 1 -->
+                            <div class="timeline-item">
+                                <div class="mb-3">
+                                    <span class="inline-block bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-sm font-medium px-4 py-1.5 rounded-full">Sept. 2024 - Present</span>
+                                </div>
+                                <h4 class="text-xl font-bold text-gray-800 dark:text-white mb-1">École Polytechnique Fédérale de Lausanne (EPFL)</h4>
+                                <p class="text-gray-600 dark:text-gray-400 mb-2">Lausanne, Switzerland</p>
+                                <p class="text-gray-800 dark:text-gray-300 font-medium mb-3">BSc in Computer Science (Grade: 5.39/6)</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Experience Timeline -->
+                    <div id="experienceTimeline" class="hidden-timeline bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 md:p-8 transition-opacity duration-300 opacity-0 hidden">
+                        <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-8 flex items-center">
+                            <i class="fas fa-briefcase text-primary dark:text-blue-400 mr-3"></i> Experience
+                        </h3>
+                        
+                        <div class="timeline-container">
+                           
+                            <!-- Experience Item 2 -->
+                            <div class="timeline-item">
+                                <div class="mb-3">
+                                    <span class="inline-block bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-sm font-medium px-4 py-1.5 rounded-full">2025-Present</span>
+                                </div>
+                                <h4 class="text-xl font-bold text-gray-800 dark:text-white mb-1">Student Assistant - Phys-101, EPFL</h4>
+                                <p class="text-gray-700 dark:text-gray-400 mb-3">
+                                    Assisted students in understanding key concepts and helped review exercise sets on a weekly basis.
+                                </p>
+                            </div>
+                            
+                            <!-- Experience Item 3 -->
+                            <div class="timeline-item">
+                                <div class="mb-3">
+                                    <span class="inline-block bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-sm font-medium px-4 py-1.5 rounded-full">2025-Present</span>
+                                </div>
+                                <h4 class="text-xl font-bold text-gray-800 dark:text-white mb-1">Mentorship, EPFL</h4>
+                                <p class="text-gray-700 dark:text-gray-400 mb-3">
+                                    Supported a group a 15 first-year students by guiding them through study strategies, time management, and academic skills.
+                                </p>
+                            </div>
+                            <!-- Experience Item 1 -->
+                            <div class="timeline-item">
+                                <div class="mb-3">
+                                    <span class="inline-block bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-sm font-medium px-4 py-1.5 rounded-full">August 2023</span>
+                                </div>
+                                <h4 class="text-xl font-bold text-gray-800 dark:text-white mb-1">Summer Internship - Distalmotion, Epalinges</h4>
+                                <p class="text-gray-700 dark:text-gray-400 mb-3">
+                                    Developed Python scripts to process motion data from medical robots (CSV files) and display the results as interactive graphs on a web page.
+                                </p>
+                            </div>
+ 
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Projects Section -->
+                <section id="projects" class="mb-12 slide-up">
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">Projects & Experience</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Project Card 1 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-bold text-gray-800 dark:text-white">Object-Oriented Programming</h3>
+                                <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs font-medium px-3 py-1 rounded-full">2025</span>
+                            </div>
+                            <ul class="text-gray-700 dark:text-gray-400 space-y-2 mb-4">
+                                <li class="flex items-start">
+                                    <i class="fas fa-gamepad text-primary dark:text-blue-400 mt-1 mr-2"></i>
+                                    <span>Developed a 2D platformer game in Java inspired by (Fireboy and Watergirl)</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-train text-primary dark:text-blue-400 mt-1 mr-2"></i>
+                                    <span>Implemented a JavaFX replica of the CFF/SBB mobile app, including a route-planning algorithm to compute optimal journeys based on travel time, connections, and transfer constraints</span>
+                                </li>
+                            </ul>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs font-medium px-3 py-1 rounded-full">Java</span>
+                                <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs font-medium px-3 py-1 rounded-full">JavaFX</span>
+                                <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs font-medium px-3 py-1 rounded-full">Algorithms</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Project Card 2 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-bold text-gray-800 dark:text-white">Functional Programming</h3>
+                                <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs font-medium px-3 py-1 rounded-full">2025</span>
+                            </div>
+                            <ul class="text-gray-700 dark:text-gray-400 mb-4">
+                                <li class="flex items-start">
+                                    <i class="fas fa-globe text-primary dark:text-blue-400 mt-1 mr-2"></i>
+                                    <span>Built a webapp (PolyGuess) in Scala as a team of four. Developed a multiplayer quiz application based on EPFL's CS courses</span>
+                                </li>
+                            </ul>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-xs font-medium px-3 py-1 rounded-full">Scala</span>
+                                <span class="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-xs font-medium px-3 py-1 rounded-full">Web Development</span>
+                            </div>
+							<div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+        						<a href="https://cs214-apps.epfl.ch/app/ul2025app127" 
+           							target="_blank" 
+           							class="inline-flex items-center text-primary dark:text-blue-400 hover:underline font-medium">
+            							<i class="fab -2"></i> Play the game!
+        						</a>
+							</div>
+                        </div>
+                        
+                        <!-- Project Card 3 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-bold text-gray-800 dark:text-white">Computer Architecture / Low Level Programming</h3>
+                                <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs font-medium px-3 py-1 rounded-full">2025</span>
+                            </div>
+                            <ul class="text-gray-700 dark:text-gray-400 space-y-2 mb-4">
+                                <li class="flex items-start">
+                                    <i class="fas fa-gamepad text-primary dark:text-blue-400 mt-1 mr-2"></i>
+                                    <span>Developed Conway's Game of Life in RISC-V on a Gecko5 Simulator</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-microchip text-primary dark:text-blue-400 mt-1 mr-2"></i>
+                                    <span>Designed and implemented a multicycle RISC-style CPU in Verilog HDL, including datapath, control unit, and interrupt handling; validated using simulation-based testbenches</span>
+                                </li>
+                            </ul>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 text-xs font-medium px-3 py-1 rounded-full">RISC-V</span>
+                                <span class="bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 text-xs font-medium px-3 py-1 rounded-full">Verilog</span>
+                                <span class="bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 text-xs font-medium px-3 py-1 rounded-full">CPU Design</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Project Card 4 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-bold text-gray-800 dark:text-white">HTTP/1.1 Server – Linux Systems Programming (C)</h3>
+                                <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs font-medium px-3 py-1 rounded-full">2026-Present</span>
+                            </div>
+                            <ul class="text-gray-700 dark:text-gray-400 space-y-2 mb-4">
+                                <li class="flex items-start">
+                                    <i class="fas fa-server text-primary dark:text-blue-400 mt-1 mr-2"></i>
+                                    <span>Designed and implemented a minimal HTTP/1.1 server in pure C, built bottom-up on Linux</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-cogs text-primary dark:text-blue-400 mt-1 mr-2"></i>
+                                    <span>Explored non-blocking I/O, buffers, and memory ownership patterns in C</span>
+                                </li>
+                            </ul>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 text-xs font-medium px-3 py-1 rounded-full">C</span>
+                                <span class="bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 text-xs font-medium px-3 py-1 rounded-full">Linux</span>
+                                <span class="bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 text-xs font-medium px-3 py-1 rounded-full">Systems Programming</span>
+                            </div>
+							<div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+        						<a href="https://github.com/Arthur926564/syscall-web" 
+           							target="_blank" 
+           							class="inline-flex items-center text-primary dark:text-blue-400 hover:underline font-medium">
+            							<i class="fab fa-github mr-2"></i> View on GitHub
+        						</a>
+    						</div>
+                        </div>
+                    
+                    <!-- Quantitative Trading Project -->
+                    <div class="mt-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-gray-800 dark:text-white">Quantitative Trading Strategy Research | Python, PyTorch, Polars</h3>
+                            <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs font-medium px-3 py-1 rounded-full">2025-Present</span>
+                        </div>
+                        <ul class="text-gray-700 dark:text-gray-400 space-y-2 mb-4">
+                            <li class="flex items-start">
+                                <i class="fas fa-chart-line text-primary dark:text-blue-400 mt-1 mr-2"></i>
+                                <span>Developing and backtested MLP neural network models for Bitcoin price prediction using historical OHLC data</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-trophy text-primary dark:text-blue-400 mt-1 mr-2"></i>
+                                <span>Achieved Sharpe ratio of 5.0 with linear model versus 3.02 with neural network approach</span>
+                            </li>
+                        </ul>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 text-xs font-medium px-3 py-1 rounded-full">Python</span>
+                            <span class="bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 text-xs font-medium px-3 py-1 rounded-full">PyTorch</span>
+                            <span class="bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 text-xs font-medium px-3 py-1 rounded-full">Polars</span>
+                            <span class="bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 text-xs font-medium px-3 py-1 rounded-full">Algorithmic Trading</span>
+                        </div>
+							<div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+        						<a href="https://github.com/Arthur926564/quant-trading-memLabs" 
+           							target="_blank" 
+           							class="inline-flex items-center text-primary dark:text-blue-400 hover:underline font-medium">
+            							<i class="fab fa-github mr-2"></i> View on GitHub
+        						</a>
+                    </div>
+					</div>
+                    <div class="mt-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-gray-800 dark:text-white">Lecture Notes in LaTeX</h3>
+                            <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs font-medium px-3 py-1 rounded-full">2024-Present</span>
+                        </div>
+                        <ul class="text-gray-700 dark:text-gray-400 space-y-2 mb-4">
+                            <li class="flex items-start">
+								<i class="fas fa-pencil-alt text-primary dark:text-blue-400 mt-1 mr-2"></i>
+                                <span> LaTeX lecture notes for CS courses taken at EPFL, written in Neovim with custom snippets</span>
+                            </li>
+                            <li class="flex items-start">
+								<i class="fas fa-book text-primary dark:text-blue-400 mt-1 mr-2"></i>
+                                <span>Over 600 pages of detailed notes</span>
+                            </li>
+                        </ul>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 text-xs font-medium px-3 py-1 rounded-full">Python</span>
+                            <span class="bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 text-xs font-medium px-3 py-1 rounded-full">PyTorch</span>
+                            <span class="bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 text-xs font-medium px-3 py-1 rounded-full">Polars</span>
+                            <span class="bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 text-xs font-medium px-3 py-1 rounded-full">Algorithmic Trading</span>
+                        </div>
+							<div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+        						<a href="https://github.com/Arthur926564/quant-trading-memLabs" 
+           							target="_blank" 
+           							class="inline-flex items-center text-primary dark:text-blue-400 hover:underline font-medium">
+            							<i class="fab fa-github mr-2"></i> View on GitHub
+        						</a>
+                    </div>
+                </section>
+                
+                <!-- References Section -->
+                <section class="mb-12 slide-up">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-xl">
+                        <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4 flex items-center">
+                            <i class="fas fa-users text-primary dark:text-blue-400 mr-3"></i> References
+                        </h2>
+                        <p class="text-gray-700 dark:text-gray-400">Available upon request</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-8 md:mb-0">
+                    <h3 class="text-2xl font-bold mb-2">Arthur Herbette</h3>
+                    <p class="text-gray-400">Computer Science Student at EPFL</p>
+                </div>
+                
+                <div class="mb-8 md:mb-0">
+                    <div class="flex flex-col space-y-3">
+                        <div class="flex items-center">
+                            <i class="fas fa-map-marker-alt mr-3 text-blue-400"></i>
+                            <span>Lausanne, Switzerland</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-envelope mr-3 text-blue-400"></i>
+                            <span>arthur.herbette@epfl.ch</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-phone mr-3 text-blue-400"></i>
+                            <span>+41 79 268 56 72</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="flex space-x-4 mb-6">
+                        <a href="https://github.com/Arthur926564" class="bg-gray-800 hover:bg-gray-700 text-white w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/arthur-herbette-b97021359/" class="bg-gray-800 hover:bg-gray-700 text-white w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110">
+                            <i class="fab fa-linkedin-in text-xl"></i>
+                        </a>
+                        <a href="#home" class="bg-gray-800 hover:bg-gray-700 text-white w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110">
+                            <i class="fas fa-envelope text-xl"></i>
+                        </a>
+                    </div>
+                    <p class="text-gray-400 text-sm">© 2024 Arthur Herbette. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkModeIcon = document.getElementById('darkModeIcon');
+        
+        // Check for saved theme or prefer-color-scheme
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const currentTheme = localStorage.getItem('theme');
+        
+        if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
+            document.body.classList.add('dark');
+            darkModeIcon.classList.remove('fa-moon');
+            darkModeIcon.classList.add('fa-sun');
         }
-      }, 3000);
-      
-      // Add custom animation for shake
-      const style = document.createElement('style');
-      style.textContent = `
-        @keyframes shake {
-          0%, 100% { transform: translateX(0); }
-          10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-          20%, 40%, 60%, 80% { transform: translateX(5px); }
+        
+        darkModeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark');
+            
+            if (document.body.classList.contains('dark')) {
+                darkModeIcon.classList.remove('fa-moon');
+                darkModeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                darkModeIcon.classList.remove('fa-sun');
+                darkModeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+        
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            mobileMenu.classList.toggle('slide-up');
+        });
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('#mobileMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+        
+        // Timeline toggle functionality
+        const educationBtn = document.getElementById('educationBtn');
+        const experienceBtn = document.getElementById('experienceBtn');
+        const educationTimeline = document.getElementById('educationTimeline');
+        const experienceTimeline = document.getElementById('experienceTimeline');
+        
+        educationBtn.addEventListener('click', () => {
+            // Update button styles
+            educationBtn.classList.remove('bg-gray-100', 'dark:bg-gray-700', 'text-gray-800', 'dark:text-gray-300');
+            educationBtn.classList.add('bg-primary', 'text-white');
+            
+            experienceBtn.classList.remove('bg-primary', 'text-white');
+            experienceBtn.classList.add('bg-gray-100', 'dark:bg-gray-700', 'text-gray-800', 'dark:text-gray-300', 'hover:bg-gray-200', 'dark:hover:bg-gray-600');
+            
+            // Show education timeline, hide experience timeline
+            educationTimeline.classList.remove('hidden', 'opacity-0');
+            educationTimeline.classList.add('opacity-100');
+            
+            experienceTimeline.classList.add('hidden', 'opacity-0');
+            experienceTimeline.classList.remove('opacity-100');
+        });
+        
+        experienceBtn.addEventListener('click', () => {
+            // Update button styles
+            experienceBtn.classList.remove('bg-gray-100', 'dark:bg-gray-700', 'text-gray-800', 'dark:text-gray-300');
+            experienceBtn.classList.add('bg-primary', 'text-white');
+            
+            educationBtn.classList.remove('bg-primary', 'text-white');
+            educationBtn.classList.add('bg-gray-100', 'dark:bg-gray-700', 'text-gray-800', 'dark:text-gray-300', 'hover:bg-gray-200', 'dark:hover:bg-gray-600');
+            
+            // Show experience timeline, hide education timeline
+            experienceTimeline.classList.remove('hidden', 'opacity-0');
+            experienceTimeline.classList.add('opacity-100');
+            
+            educationTimeline.classList.add('opacity-0', 'hidden');
+            educationTimeline.classList.remove('opacity-100');
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    // Close mobile menu if open
+                    if(!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                    
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Add scroll animation to elements
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+        
+        // Observe elements for scroll animations
+        document.querySelectorAll('.slide-up').forEach(el => observer.observe(el));
+
+	// Function to add GitHub buttons to project cards
+function addGitHubButtons() {
+    document.querySelectorAll('.project-card').forEach(card => {
+        const githubUrl = card.getAttribute('data-github');
+        if (githubUrl) {
+            const buttonContainer = document.createElement('div');
+            buttonContainer.className = 'mt-4 pt-4 border-t border-gray-200 dark:border-gray-700';
+            buttonContainer.innerHTML = `
+                <a href="${githubUrl}" target="_blank" class="inline-flex items-center text-primary dark:text-blue-400 hover:underline font-medium">
+                    <i class="fab fa-github mr-2"></i> View on GitHub
+                </a>
+            `;
+            // Append after the tags
+            const tagsContainer = card.querySelector('.flex.flex-wrap.gap-2:last-child');
+            if (tagsContainer) {
+                tagsContainer.parentNode.insertBefore(buttonContainer, tagsContainer.nextSibling);
+            } else {
+                card.appendChild(buttonContainer);
+            }
         }
-      `;
-      document.head.appendChild(style);
     });
-    
-    // Clean up animations on page hide
-    window.addEventListener('beforeunload', () => {
-      if (window.slideshowInterval) {
-        clearInterval(window.slideshowInterval);
-      }
-    });
-  </script>
+}
+
+// Call it after DOM loads
+document.addEventListener('DOMContentLoaded', addGitHubButtons);
+    </script>
 </body>
 </html>
